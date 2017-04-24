@@ -11,8 +11,8 @@ var express = require('express'),
     mongdb = require('mongoose');
     
 
-var api = require('./routes/api'),
-    authenticate = require('./routes/authenticate')(passport),
+var api = require('./routes/api.js'),
+    authenticate = require('./routes/authenticate.js')(passport),
     index = require('./routes/index.js');
 
 var app = express();
@@ -25,7 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/public/images/node.ico'));
+app.use(favicon(__dirname + '/public/favicon/node.ico'));
 app.use(logger('dev'));
 app.use(session({
   secret: 'EssertGmbHKey',
@@ -36,16 +36,16 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public/views/')));
 app.use(passport.initialize());
 app.use(passport.session());
 
 /***************Path Setting******************************/
 
 // Add a simple route for static content served from 'public'
-app.use("/",express.static("public"));
+//app.use("/",express.static("public"));
 
-app.use('/home', index);
+app.use('/', index);
 app.use('/auth', authenticate);
 app.use('/api', api);
 

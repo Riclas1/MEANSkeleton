@@ -13,23 +13,23 @@ app.config(function($routeProvider){
 	$routeProvider
 		//the timeline display
 		.when('/', {
-			templateUrl: '/partial/main/main.html',
+			templateUrl: '/partialview/main/main.html',
 			    //templateUrl: '/partial/login.html',
 			controller: 'mainController'
 					
 		})
 		.when('/main', {
-			templateUrl: '/partial/main/main.html',
+			templateUrl: '/partialview/main/main.html',
 			controller: 'mainController'
 		})	
 		//the login display
 		.when('/login', {
-			templateUrl: '/partial/login/login.html',
+			templateUrl: '/partialview/login/login.html',
 			controller: 'authController'
 		})
 		//the signup display
 		.when('/setup', {
-			templateUrl: '/partial/setup.html',
+			templateUrl: '/partialview/setup/setup.html',
 			controller: 'authController'
 		});
 });
