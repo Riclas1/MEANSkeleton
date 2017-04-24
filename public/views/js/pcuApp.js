@@ -39,7 +39,7 @@ app.config(function($routeProvider){
 });*/
 
 
-app.controller('mainController',['$scope', '$log', '$http', function($scope, $log, $http){
+/*app.controller('mainController',['$scope', '$log', '$http', function($scope, $log, $http){
 	$scope.$log = $log;
 	$scope.value = "";
 	$scope.Pos= "";
@@ -62,7 +62,7 @@ app.controller('mainController',['$scope', '$log', '$http', function($scope, $lo
 	});
 
 	
-}]);
+}]);*/
 
 
 app.controller('authController', function($scope, $http, $rootScope, $location){
