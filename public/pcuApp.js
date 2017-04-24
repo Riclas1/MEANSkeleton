@@ -13,18 +13,18 @@ app.config(function($routeProvider){
 	$routeProvider
 		//the timeline display
 		.when('/', {
-			templateUrl: '/partial/main.html',
+			templateUrl: '/partial/main/main.html',
 			    //templateUrl: '/partial/login.html',
 			controller: 'mainController'
 					
 		})
 		.when('/main', {
-			templateUrl: '/partial/main.html',
+			templateUrl: '/partial/main/main.html',
 			controller: 'mainController'
 		})	
 		//the login display
 		.when('/login', {
-			templateUrl: '/partial/login.html',
+			templateUrl: '/partial/login/login.html',
 			controller: 'authController'
 		})
 		//the signup display
@@ -37,6 +37,7 @@ app.config(function($routeProvider){
 /*app.factory('postService', function($resource){
 	return $resource('/api/posts/:id');
 });*/
+
 
 app.controller('mainController',['$scope', '$log', '$http', function($scope, $log, $http){
 	$scope.$log = $log;
@@ -62,6 +63,7 @@ app.controller('mainController',['$scope', '$log', '$http', function($scope, $lo
 
 	
 }]);
+
 
 app.controller('authController', function($scope, $http, $rootScope, $location){
 	$scope.user = {username: '', password: ''};

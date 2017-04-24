@@ -7,7 +7,6 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     session = require('express-session'),
     passport = require('passport'),
-    RED = require('node-red'),
     http = require('http'),
     mongdb = require('mongoose');
     
@@ -21,17 +20,6 @@ var app = express();
 // Create a server
 var server = http.createServer(app);
 
-// Create the settings object - see default settings.js file for other options
-var settings = {
-    httpAdminRoot:"/red",
-    httpNodeRoot: "/api",
-    userDir:"./red/",
-    functionGlobalContext: { }    // enables global context
-};
-
-// Initialise the runtime with a server and settings
-RED.init(server,settings);
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -40,7 +28,7 @@ app.set('view engine', 'ejs');
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
 app.use(logger('dev'));
 app.use(session({
-  secret: 'SCAAtlasCopcoKey',
+  secret: 'EssertGmbHKey',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: true }
@@ -57,17 +45,9 @@ app.use(passport.session());
 // Add a simple route for static content served from 'public'
 app.use("/",express.static("public"));
 
-// Serve the editor UI from /red
-app.use(settings.httpAdminRoot,RED.httpAdmin);
-
-// Serve the http nodes UI from /api
-app.use(settings.httpNodeRoot,RED.httpNode);
-
-
-
 app.use('/home', index);
 app.use('/auth', authenticate);
-//app.use('/api', api);
+app.use('/api', api);
 
 /**********************************************/
 /***************Mongoose DB******************************/
@@ -127,13 +107,3 @@ app.set('port', process.env.PORT || 3000);
 server.listen(app.get('port'));
 
 console.log('Express server listening on port ' + server.address().port);
-
-// Start the runtime
-RED.start();
-
-
-//var server = app.listen(app.get('port'), function() {
-//  debug('Express server listening on port ' + server.address().port);
-//});
-
-//module.exports = app;
