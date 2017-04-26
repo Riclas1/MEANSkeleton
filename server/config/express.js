@@ -8,7 +8,7 @@ var express = require('express'),
     passport = require('passport'),
     session = require('express-session');
    
-module.exports = function(app, config){
+module.exports = function(app, config, routes){
     
     /**********View Engine Setup*********/
     app.set('views', config.rootpath + '/server/views');
@@ -22,20 +22,53 @@ module.exports = function(app, config){
     app.use(express.static(config.rootpath + '/public/views/'));
 
     /**********Path Setup*********/
-    app.use('/', config.index);
-    app.use('/auth', config.authenticate);
-    app.use('/api', config.api);
+    app.use('/', routes.index);
+    app.use('/auth', routes.authenticate);
+    app.use('/api', routes.api);
 
     /**********Passport Setup*********/
-    /*app.use(session({
+    app.use(session({
                     secret: 'EssertGmbHKey',
                     resave: false,
-                    saveUninitialized: true,
+                    saveUninitialized: false,
                     cookie: { secure: true,
                             maxAge: 3600000
                     }  
                 }));
-    app.use(config.passport.initialize());
-    app.use(config.passport.session());*/
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // catch 404 and forward to error handler
+    app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+    });
+
+    // error handlers
+
+    // development error handler
+    // will print stacktrace
+    if (app.get('env') === 'development') {
+        app.use(function(err, req, res, next) {
+            res.status(err.status || 500);
+            res.render('error', {
+                message: err.message,
+                error: err
+            });
+        });
+    };
+
+    // production error handler
+    // no stacktraces leaked to user
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: {}
+        });
+    });
+
+    app.set('port', config.port);
 
 };
