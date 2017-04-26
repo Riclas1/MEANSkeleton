@@ -1,55 +1,38 @@
 var express = require('express'),
-    debug = require('debug')('Start'),
-    path = require('path'),
-    favicon = require('serve-favicon'),
-    logger = require('morgan'),
-    cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
-    session = require('express-session'),
     passport = require('passport'),
-    http = require('http'),
-    mongdb = require('mongoose');
-    
+    session = require('express-session'),
+    http = require('http');
 
-var api = require('./routes/api.js'),
-    authenticate = require('./routes/authenticate.js')(passport),
-    index = require('./routes/index.js');
+var app = express(),
+    server = http.createServer(app),
+    config = {  rootpath: __dirname,
+                api : require('./server/routes/api.js'),
+                authenticate : require('./server/routes/authenticate.js')(passport),
+                index : require('./server/routes/index.js'),
+                passport : passport
+            },
+    initPassport = require('./passport-init');
 
-var app = express();
 
-// Create a server
-var server = http.createServer(app);
+require('./server/config/express.js')(app, config)
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/public/favicon/node.ico'));
-app.use(logger('dev'));
-app.use(session({
-  secret: 'EssertGmbHKey',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '/public/views/')));
-app.use(passport.initialize());
-app.use(passport.session());
+/**********Passport Setup*********/
+app.use(session({ secret: 'EssertGmbHKey',
+                  resave: false,
+                  saveUninitialized: true,
+                  cookie: { secure: true,
+                    maxAge: 3600000
+                  }  
+              }));
+app.use(config.passport.initialize());
+app.use(config.passport.session());
 
-/***************Path Setting******************************/
+// Initialize Passport
+initPassport(config.passport);
 
-// Add a simple route for static content served from 'public'
-//app.use("/",express.static("public"));
 
-app.use('/', index);
-app.use('/auth', authenticate);
-app.use('/api', api);
-
-/**********************************************/
+/********************************************************/
 /***************Mongoose DB******************************/
 /*mongdb.connect('mongodb://10.49.39.4:27017/local');
 var db= mongdb.connection;
@@ -64,7 +47,7 @@ testmodel.findOne({},function(err,data){
     console.log(data);
 });
 */
-/**********************************************/
+/*******************************************************/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -72,10 +55,6 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-
-//// Initialize Passport
-var initPassport = require('./passport-init');
-initPassport(passport);
 
 // error handlers
 
@@ -102,7 +81,6 @@ app.use(function(err, req, res, next) {
 });
 
 app.set('port', process.env.PORT || 3000);
-
 
 server.listen(app.get('port'));
 
