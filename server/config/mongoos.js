@@ -1,6 +1,8 @@
 var mongo = require('mongoose');
 
 module.exports = function (config){
+    console.log('start mongodb!!!!!!!!!');
+       
     //********* Connection **********       
     mongo.connect(config.db);
     var db= mongo.connection;

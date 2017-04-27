@@ -2,34 +2,41 @@ var express = require('express'),
     passport = require('passport'),
     passportlocal = require('passport-local').Strategy,
     session = require('express-session'),
-    http = require('http');
+    http = require('http'),
+    async = require('async');
 
 var app = express(),
     server = http.createServer(app),
     env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
     config = require('./server/config/config.js')[env],
-    initPassport = require('./passport-init'),
-    routes = {
-        api : require('./server/routes/api.js'),
-        authenticate : require('./server/routes/authenticate.js')(passport),
-        index : require('./server/routes/index.js')
-    }
-
-/**********Express Setup*********/
-require('./server/config/express.js')(app, config ,routes);
-
-/**********Mongoos Setup*********/
-require('./server/config/mongoos.js')(config);
+    initPassport = require('./passport-init');
 
 
+    /**********Express Setup*********/
+    require('./server/config/express.js')(app, config);
 
-// Initialize Passport
-initPassport(passport);
+    /**********DB CMD Sart *********/
+    require('./server/cmd/mongodb.js')(config);
+
+    /**********Mongoos Setup*********/
+    setTimeout(function(){ require('./server/config//mongoos.js')(config) },5000);
+
+    /**********Routes Setup*********/
+    require('./server/config/express.js')(app, config);
 
 
+    // Initialize Passport
+    initPassport(passport);
+
+    server = require('http-shutdown')(server);
+
+    server.listen(app.get('port'));
+
+    console.log('Express server listening on port ' + server.address().port);
 
 
-
-server.listen(app.get('port'));
-
-console.log('Express server listening on port ' + server.address().port);
+/**********cleanup after server shutdown*********/
+server.on('shutdown',function() {
+    /**********CMD Threadkill *********/
+    require('./server/cmd/threadkill.js');
+});

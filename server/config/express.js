@@ -21,11 +21,7 @@ module.exports = function(app, config, routes){
     app.use(cookieParser());
     app.use(express.static(config.rootpath + '/public/views/'));
 
-    /**********Path Setup*********/
-    app.use('/', routes.index);
-    app.use('/auth', routes.authenticate);
-    app.use('/api', routes.api);
-
+   
     /**********Passport Setup*********/
     app.use(session({
                     secret: 'EssertGmbHKey',
