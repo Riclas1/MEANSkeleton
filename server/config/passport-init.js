@@ -34,8 +34,9 @@ module.exports = function(passport){
 			passReqToCallback : true
 		},
 		function(req, username, password, done) { 
-
-			Users.findOne({username : username},function(err, data){
+			
+				console.log(createHash(password));
+			/*Users.findOne({username : username},function(err, data){
 				// Db Error
 				if(err){
 					return done (err, false);
@@ -57,7 +58,7 @@ module.exports = function(passport){
 					console.log('Invalid password user login ' + username);
 					return done(null, false)
 				};
-			});
+			});*/
 		}
 	));
 
