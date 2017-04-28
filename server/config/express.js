@@ -5,11 +5,15 @@ var express = require('express'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    passport = require('passport'),
     session = require('express-session');
-   
-module.exports = function(app, config, routes){
     
+
+
+
+   
+module.exports = function(app, config, passport, routes){
+  
+  
     /**********View Engine Setup*********/
     app.set('views', config.rootpath + '/server/views');
     app.set('view engine', 'ejs');
@@ -21,6 +25,10 @@ module.exports = function(app, config, routes){
     app.use(cookieParser());
     app.use(express.static(config.rootpath + '/public/views/'));
 
+    /**********Routes Setup*********/
+    app.use('/', routes.index);
+    app.use('/auth', routes.authenticate);
+    app.use('/api', routes.api);
    
     /**********Passport Setup*********/
     app.use(session({
@@ -30,9 +38,10 @@ module.exports = function(app, config, routes){
                     cookie: { secure: true,
                             maxAge: 3600000
                     }  
-                }));
+    }));
+   
     app.use(passport.initialize());
-    app.use(passport.session());
+    app.use(passport.session()); 
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

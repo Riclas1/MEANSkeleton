@@ -8,40 +8,30 @@ var express = require('express'),
 var app = express(),
     server = http.createServer(app),
     env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
-    config = require('./server/config/config.js')[env],
-    initPassport = require('./passport-init');
+    config = require('./server/config/config.js')[env];
+ 
+ var routes = { index : require('./server/routes/index.js'),
+                api : require('./server/routes/api.js'),
+                authenticate : require('./server/routes/authenticate.js')(passport)
+            };
+
 
 
 /**********Express Setup*********/
-require('./server/config/express.js')(app, config);
+require('./server/config/express.js')(app, config, passport, routes);
 
 /**********DB CMD Sart *********/
 require('./server/cmd/mongodb.js')(config);
 
 /**********Mongoos Setup*********/
-setTimeout(function(){ require('./server/config/mongoos.js')(config) },5000);
+setTimeout(function(){ require('./server/config/mongoose.connection')(config) },5000);
 
-var user = require('./server/entitys/auth/user.js');
+/**********Entity Setup*********/
+require('./server/config/mongoose.entity');
 
-passport.use(new passportlocal(function(username, password, done){
-    user.find({username : username},function(err,data){
-        if(user){
-            return (null, user);
-        }
-        else{
-            return (null, false);
-        };
-    });
-}));
-
-
-
-/**********Routes Setup*********/
-require('./server/config/express.js')(app, config);
-
-// Initialize Passport
-initPassport(passport);
-
+/**********Passport Setup*********/
+require('./server/config/passport-init.js')(passport);
+   
 /**********Start Server*********/
 server = require('http-shutdown')(server);
 

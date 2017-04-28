@@ -1,7 +1,13 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+	router = express.Router();
+	
 
 module.exports = function(passport){
+
+
+	router.get('/', function(err, res){
+		res.send('jab');
+	});
 
 	//sends successful login state back to angular
 	router.get('/success', function(req, res){
