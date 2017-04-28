@@ -3,11 +3,12 @@ var Promise = require('bluebird'),
 
 module.exports = function(){
 
-const getAsync = Promise.promisify(cmd.get, { multiArgs: true, context: cmd })
+const getAsync = Promise.promisify(cmd.get, { multiArgs: true, context: cmd });
 
 var id = getAsync('pkill mongod').then(data => {
     console.log(data);
     }).catch(err => {
-        console.log('cmd err', err);
-   });
+         console.log('cmd err', err);
+       
+    });
 };
