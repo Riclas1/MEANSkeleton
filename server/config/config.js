@@ -5,11 +5,13 @@ module.exports = {
     development: {
         db: 'mongodb://localhost:27017/local',
         rootpath : rootpath,
-        port: process.env.port || 3000        
+        port: process.env.port || 3000,
+        pord: false        
     },
     production: {
-        db: '',
+        db: 'mongodb://localhost:27017/local',
         rootpath : rootpath,
-        port: process.env.port || 80
+        port: process.env.port || 80,
+        prod: true
    }
 };

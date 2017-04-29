@@ -5,32 +5,38 @@ var express = require('express'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    session = require('express-session');
-    
+    session = require('express-session'),
+    color = require('chalk');
+       
+module.exports = function(app, config,  passport){
+     var routes = {  index : require('../routes/index.js'),
+                    auth :  require('../routes/authenticate.js')(passport),
+                    api:    require('../routes/api.js')
+                }
 
-
-
-   
-module.exports = function(app, config, passport, routes){
-  
-  
     /**********View Engine Setup*********/
-    app.set('views', config.rootpath + '/server/views');
+    app.set('views', config.rootpath + './server/views');
     app.set('view engine', 'ejs');
 
-    app.use(favicon(config.rootpath + '/public/favicon/node.ico'));
+    app.use(favicon(config.rootpath + './public/favicon/node.ico'));
     app.use(logger('dev'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookieParser());
-    app.use(express.static(config.rootpath + '/public/views/'));
-
+    app.use(express.static(config.rootpath + './public/views/index/'));
+   
+   /**********Passport Setup*********/
+    app.use(passport.initialize());
+    app.use(passport.session()); 
+   
+   
     /**********Routes Setup*********/
     app.use('/', routes.index);
-    app.use('/auth', routes.authenticate);
+    app.use('/auth', routes.auth);
     app.use('/api', routes.api);
-   
-    /**********Passport Setup*********/
+
+
+    /**********Session Setup*********/
     app.use(session({
                     secret: 'EssertGmbHKey',
                     resave: false,
@@ -39,9 +45,6 @@ module.exports = function(app, config, passport, routes){
                             maxAge: 3600000
                     }  
     }));
-   
-    app.use(passport.initialize());
-    app.use(passport.session()); 
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
@@ -76,4 +79,5 @@ module.exports = function(app, config, passport, routes){
 
     app.set('port', config.port);
 
+    console.log(color.green('express config done!'));
 };

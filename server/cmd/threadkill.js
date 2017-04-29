@@ -1,5 +1,6 @@
 var Promise = require('bluebird'),
-    cmd = require('node-cmd');
+    cmd = require('node-cmd'),
+    color = require('chalk');
 
 module.exports = function(){
 
@@ -11,4 +12,6 @@ var id = getAsync('pkill mongod').then(data => {
          console.log('cmd err', err);
        
     });
+
+    console.log(color.green('cmd db stopp!'));
 };
