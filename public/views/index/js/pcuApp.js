@@ -1,20 +1,18 @@
-var app = angular.module('pcuApp', ['ngRoute', 'ngResource']).run(function() {
-	/*$rootScope.authenticated = false;
-	$rootScope.current_user = 'Guest';
+var app = angular.module('pcuApp', ['ngRoute', 'ngResource']).run(function($rootScope,$http) {
+	$rootScope.authenticated = false;	
+	$rootScope.current_user = 'test';
+	$rootScope.current_user_level = '';
 
 	$rootScope.signout = function(){
 		$http.get('auth/signout');
 		$rootScope.authenticated = false;
 		$rootScope.current_user = 'Guest';
-	};*/
-});
-
-app.config(function($routeProvider){
+	};
+}).config(function($routeProvider){
 	$routeProvider
 		//the timeline display
 		.when('/', {
-			templateUrl: '/partialview/main/main.html',
-			    //templateUrl: '/partial/login.html',
+			templateUrl: '/partialview/login/login.html',
 			controller: 'mainController'
 					
 		})
@@ -34,9 +32,7 @@ app.config(function($routeProvider){
 		});
 });
 
-/*app.factory('postService', function($resource){
-	return $resource('/api/posts/:id');
-});*/
+
 
 
 

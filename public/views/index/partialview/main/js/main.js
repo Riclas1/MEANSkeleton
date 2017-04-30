@@ -1,4 +1,4 @@
-angular.module('pcuApp').controller('mainController',['$scope', '$log', '$http', function($scope, $log, $http){
+angular.module('pcuApp').controller('mainController',['$scope', '$log', '$http', '$rootScope', function($scope, $log, $http, $rootScope){
 	$scope.$log = $log;
 	$scope.value = "";
 	$scope.Pos= "";

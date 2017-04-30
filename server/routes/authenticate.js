@@ -7,6 +7,7 @@ module.exports = function(passport){
 
 	//sends successful login state back to angular
 	router.get('/success', function(req, res){
+		console.log(req.user);
 		res.send({state: 'success', user: req.user ? req.user : null});
 	});
 
@@ -18,13 +19,15 @@ module.exports = function(passport){
 	//log in
 	router.post('/login', passport.authenticate('login', {
 		successRedirect: '/auth/success',
-		failureRedirect: '/auth/failure'
+		failureRedirect: '/auth/failure',
+		session: true
 	}));
 
 	//sign up
 	router.post('/signup', passport.authenticate('signup', {
 		successRedirect: '/auth/success',
-		failureRedirect: '/auth/failure'
+		failureRedirect: '/auth/failure',
+		session: true
 	}));
 
 	//log out

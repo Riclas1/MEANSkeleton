@@ -25,24 +25,27 @@ module.exports = function(passport){
 		function(req, username, password, done) { 
 			// check in mongo if a user with username exists or not
 			User.findOne({ 'username' :  username }, 
-				function(err, user) {
+					function(err, user) {
+					console.log(user);
+					
 					// In case of any error, return using the done method
-					if (err)
+					if (err){
 						console.log(color.red('Error in Login: '+err))
 						return done(err);
+					};
 					// Username does not exist, log the error and redirect back
 					if (!user){
 						console.log(color.red('User Not Found with username '+username));
 						return done(null, false);                 
-					}
+					};
 					// User exists but wrong password, log the error 
 					if (!isValidPassword(user, password)){
 						console.log(color.red('Invalid Password'));
 						return done(null, false); // redirect back to login page
-					}
+					};
 					// User and password both match, return user from done method
 					// which will be treated like success
-					console.log(color,green('succes login ' + user.username))
+					console.log(color.green('succes login ' + user.username))
 					return done(null, user);
 				}
 			);
@@ -60,7 +63,7 @@ module.exports = function(passport){
 				if (err){
 					console.log(color.red('Error in SignUp: '+err));
 					return done(err);
-				}
+				};
 				// already exists
 				if (user) {
 					console.log(color.red('User already exists with username: '+username));
@@ -82,7 +85,7 @@ module.exports = function(passport){
 						console.log(color.green(newUser.username + ' Registration succesful'));    
 						return done(null, newUser);
 					});
-				}
+				};
 			});
 		})
 	);

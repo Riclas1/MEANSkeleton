@@ -22,9 +22,19 @@ module.exports = function(app, config,  passport){
     app.use(logger('dev'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(cookieParser());
+    app.use(cookieParser('EssertGmbHKey'));
     app.use(express.static(config.rootpath + './public/views/index/'));
-   
+    
+    /**********Session Setup*********/
+    app.use(session({
+                    secret: 'EssertGmbHKey',
+                    resave: false,
+                    saveUninitialized: false,
+                    cookie: { secure: true,
+                            maxAge: 1800000
+                    }  
+    }));
+
    /**********Passport Setup*********/
     app.use(passport.initialize());
     app.use(passport.session()); 
@@ -34,18 +44,7 @@ module.exports = function(app, config,  passport){
     app.use('/', routes.index);
     app.use('/auth', routes.auth);
     app.use('/api', routes.api);
-
-
-    /**********Session Setup*********/
-    app.use(session({
-                    secret: 'EssertGmbHKey',
-                    resave: false,
-                    saveUninitialized: false,
-                    cookie: { secure: true,
-                            maxAge: 3600000
-                    }  
-    }));
-
+    
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
     var err = new Error('Not Found');
