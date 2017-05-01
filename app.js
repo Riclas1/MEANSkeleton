@@ -8,7 +8,7 @@ var express = require('express'),
 
 var app = express(),
     server = http.createServer(app),
-    env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
+    env = process.env.NODE_ENV = process.env.NODE_ENV || 'dev',
     config = require('./server/config/config.js')[env];
  
 /**********Express Setup*********/

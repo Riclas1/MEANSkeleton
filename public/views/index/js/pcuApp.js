@@ -1,12 +1,12 @@
 var app = angular.module('pcuApp', ['ngRoute', 'ngResource']).run(function($rootScope,$http) {
 	$rootScope.authenticated = false;	
-	$rootScope.current_user = 'test';
+	$rootScope.current_user = '';
 	$rootScope.current_user_level = '';
 
 	$rootScope.signout = function(){
 		$http.get('auth/signout');
 		$rootScope.authenticated = false;
-		$rootScope.current_user = 'Guest';
+		$rootScope.current_user = '';
 	};
 }).config(function($routeProvider){
 	$routeProvider

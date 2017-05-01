@@ -1,19 +1,24 @@
-angular.module('pcuApp').controller('mainController',['$scope', '$log', '$http', '$rootScope', function($scope, $log, $http, $rootScope){
+angular.module('pcuApp').controller('mainController',['$scope', '$log', '$http', '$location' ,'$rootScope', function($scope, $log, $http, $location ,$rootScope){
 	$scope.$log = $log;
 	$scope.value = "";
 	$scope.Pos= "";
 	$scope.Drehzahl = "";
 	$scope.ajaxPost = function(slot,value){
-		$scope.value = "senden";
+		$log.warn('senden');
 		var req = {
  				method: 'POST',
- 				url: '/api/Umrichter/' + slot,
- 				headers: {
+ 				url: '/api/posts',
+				 headers: {
    					'Content-Type': undefined
 	 			},
  				data: value  
 		}
-		$http(req).then(function(){$scope.value = "gesendet";}, function(){$scope.value = "fehler";});
+		$http(req).then(function(data){
+			$log.info('succes');
+			
+		}, function(data){
+			$log.error('error');
+		});
 	};
 	
 	$scope.$on('$viewContentLoaded', function(event) {

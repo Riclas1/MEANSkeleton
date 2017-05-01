@@ -30,7 +30,7 @@ module.exports = function(app, config,  passport){
                     secret: 'EssertGmbHKey',
                     resave: false,
                     saveUninitialized: false,
-                    cookie: { secure: true,
+                    cookie: { 
                             maxAge: 1800000
                     }  
     }));

@@ -7,14 +7,20 @@ module.exports = function(passport){
 
 	//sends successful login state back to angular
 	router.get('/success', function(req, res){
-		console.log(req.user);
-		res.send({state: 'success', user: req.user ? req.user : null});
+		req.session.save(() => {
+			res.send({state: 'success', user: req.user ? req.user : null});
+    	})
 	});
 
 	//sends failure login state back to angular
 	router.get('/failure', function(req, res){
 		res.send({state: 'failure', user: null, message: "Invalid username or password"});
 	});
+
+	router.get('/logout',function(req, res){
+		res.send({state: 'failure', user: null, message: "User logout"});
+	});
+	
 
 	//log in
 	router.post('/login', passport.authenticate('login', {
@@ -31,11 +37,12 @@ module.exports = function(passport){
 	}));
 
 	//log out
-	router.get('/signout', function(req, res) {
-		req.logout();
-		res.redirect('/');
-	});
-
+	router.post('/logout', passport.authenticate('logout', {
+		successRedirect: '/auth/logout',
+		failureRedirect: '/auth/logout',
+		session: false
+	}));
+		
 	return router;
 
 }
