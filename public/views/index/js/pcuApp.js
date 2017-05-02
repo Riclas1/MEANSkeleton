@@ -3,8 +3,8 @@ var app = angular.module('pcuApp', ['ngRoute', 'ngResource']).run(function($root
 	$rootScope.current_user = '';
 	$rootScope.current_user_level = '';
 
-	$rootScope.signout = function(){
-		$http.get('auth/signout');
+	$rootScope.logout = function(){
+		$http.post('auth/logout');
 		$rootScope.authenticated = false;
 		$rootScope.current_user = '';
 	};

@@ -17,9 +17,9 @@ module.exports = function(passport){
 		res.send({state: 'failure', user: null, message: "Invalid username or password"});
 	});
 
-	router.get('/logout',function(req, res){
+	/*router.get('/logout',function(req, res){
 		res.send({state: 'failure', user: null, message: "User logout"});
-	});
+	});*/
 	
 
 	//log in
@@ -37,11 +37,10 @@ module.exports = function(passport){
 	}));
 
 	//log out
-	router.post('/logout', passport.authenticate('logout', {
-		successRedirect: '/auth/logout',
-		failureRedirect: '/auth/logout',
-		session: false
-	}));
+	router.post('/logout', function(req,res) {
+		req.logout();
+		res.statusCode(401).end();
+	});
 		
 	return router;
 

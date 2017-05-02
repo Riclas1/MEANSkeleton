@@ -18,6 +18,9 @@ angular.module('pcuApp').controller('mainController',['$scope', '$log', '$http',
 			
 		}, function(data){
 			$log.error('error');
+			if(data.status){
+				$location.path('/');
+			};
 		});
 	};
 	

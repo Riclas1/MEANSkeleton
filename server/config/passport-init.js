@@ -43,16 +43,12 @@ module.exports = function (passport) {
 						return done(null, false); // redirect back to login page
 					};
 
-					/*req.logIn(user, function (err) {
-						if (err) {
-							console.log('Error in req.login(): ' + err);
-							return done(null, false);
-						};*/
-						console.log('succes login user ' + user.username);
-						// User and password both match, return user from done method
-						// which will be treated like success
-						return done(null, user);
-					//});
+					console.log('succes login user ' + user.username);
+					
+					// User and password both match, return user from done method
+					// which will be treated like success
+					return done(null, user);
+					
 				}
 			);
 		}
@@ -96,7 +92,7 @@ module.exports = function (passport) {
 		})
 	);
 
-	passport.use('logout', new LocalStrategy({
+	/*passport.use('logout', new LocalStrategy({
 		passReqToCallback: true // allows us to pass back the entire request to the callback
 	},
 		function (req, username, password, done) {
@@ -105,7 +101,7 @@ module.exports = function (passport) {
 			return done(null, false);
 
 		}
-	));
+	));*/
 
 
 	var isValidPassword = function (user, password) {

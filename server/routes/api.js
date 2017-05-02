@@ -15,7 +15,7 @@ function isAuthenticated (req, res, next) {
 
 	// if the user is not authenticated then redirect him to the login page
 	console.log('auth ungültig');
-	return res.redirect('/');
+	return res.status(401).location('/').end();
 
 	
 };
