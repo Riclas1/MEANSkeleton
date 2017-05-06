@@ -6,13 +6,18 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     session = require('express-session'),
-    color = require('chalk');
+    mongoStore = require('connect-mongo')(session),
+    color = require('chalk');    
        
-module.exports = function(app, config,  passport){
+module.exports = function(app, config,  passport, mongoose){
      var routes = {  index : require('../routes/index.js'),
                     auth :  require('../routes/authenticate.js')(passport),
                     api:    require('../routes/api.js')
-                }
+                };
+       /* store = new sessionStore({
+            interval: 120000, // expiration check worker run interval in millisec (default: 60000)
+            connection: mongoose.db // <== custom connection
+        });*/
 
     /**********View Engine Setup*********/
     app.set('views', config.rootpath + './server/views');
@@ -31,8 +36,8 @@ module.exports = function(app, config,  passport){
                     resave: false,
                     saveUninitialized: false,
                     cookie: { 
-                            maxAge: 1800000
-                    }  
+                        maxAge: 1800000
+                    }                      
     }));
 
    /**********Passport Setup*********/

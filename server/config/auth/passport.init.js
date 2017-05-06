@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-User = mongoose.model('User'),
+	User = mongoose.model('User'),
 	LocalStrategy = require('passport-local').Strategy,
 	bCrypt = require('bcrypt-nodejs'),
 	color = require('chalk');
@@ -91,18 +91,6 @@ module.exports = function (passport) {
 			});
 		})
 	);
-
-	/*passport.use('logout', new LocalStrategy({
-		passReqToCallback: true // allows us to pass back the entire request to the callback
-	},
-		function (req, username, password, done) {
-			console.log('Passport logout hit');
-			req.logOut();
-			return done(null, false);
-
-		}
-	));*/
-
 
 	var isValidPassword = function (user, password) {
 		return bCrypt.compareSync(password, user.password);

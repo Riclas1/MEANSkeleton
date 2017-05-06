@@ -10,36 +10,43 @@ var app = express(),
     server = http.createServer(app),
     env = process.env.NODE_ENV = process.env.NODE_ENV || 'dev',
     config = require('./server/config/config.js')[env];
- 
-/**********Express Setup*********/
-require('./server/config/express.js')(app, config, passport);
+
+
 
 /**********DB CMD Sart *********/
-if(config.prod){   
+if (config.prod) {
     require('./server/cmd/mongodb.js')(config);
 }
 
-/**********Mongoos Setup*********/
-setTimeout(function(){ require('./server/config/mongoose.connection')(config) },5000);
 
-/**********Entity Setup*********/
-setTimeout(function(){require('./server/config/mongoose.entity'),5500});
+setTimeout(function () {
+    /**********Mongoos Setup*********/
+    var connDb = require('./server/config/mongoose.connection')(config);
 
-/**********Passport Setup*********/
-setTimeout(function(){require('./server/config/passport-init.js')(passport),6000});
-   
-/**********Start Server*********/
-server = require('http-shutdown')(server);
+    /**********Express Setup*********/
+    require('./server/config/express.js')(app, config, passport, connDb);
 
-server.listen(app.get('port'));
+    /**********Entity Setup*********/
+    require('./server/config/mongoose.entity');
 
-console.log(color.green('Express server listening on port ' + server.address().port));
+    /**********Passport Setup*********/
+    require('./server/config/auth/passport.init')(passport);
+
+    /**********Start Server*********/
+    server = require('http-shutdown')(server);
+
+    server.listen(app.get('port'));
+
+    console.log(color.green('Express server listening on port ' + server.address().port));
 
 
-/**********cleanup after server shutdown*********/
-server.on('shutdown',function() {
-    /**********CMD Threadkill *********/
-    if (config.prod) {
-        require('./server/cmd/threadkill.js');
-    };
-});
+    /**********cleanup after server shutdown*********/
+    server.on('shutdown', function () {
+        /**********CMD Threadkill *********/
+        if (config.prod) {
+            require('./server/cmd/threadkill.js');
+        };
+    });
+
+
+}, 5000);

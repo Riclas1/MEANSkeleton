@@ -1,8 +1,9 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+	router = express.Router(),
+	isAuthenticated = require('../config/auth/isAuthenticated.routes');
 
 //Used for routes that must be authenticated.
-function isAuthenticated (req, res, next) {
+/*function isAuthenticated (req, res, next) {
 	// if user is authenticated in the session, call the next() to call the next request handler 
 	// Passport adds this method to request object. A middleware is allowed to add properties to
 	// request and response objects
@@ -18,7 +19,7 @@ function isAuthenticated (req, res, next) {
 	return res.status(401).location('/').end();
 
 	
-};
+};*/
 
 //Register the authentication middleware
 router.use('/posts', isAuthenticated);
