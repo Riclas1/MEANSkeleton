@@ -1,7 +1,11 @@
 {
   "name": "MeanSkeleton",
+  "description": "walkingSekeletonProjekt",
   "version": "0.0.0",
   "private": true,
+  "authors": [
+    "Rico Sonntag"
+  ],
   "scripts": {
     "start": "node app.js"
   },

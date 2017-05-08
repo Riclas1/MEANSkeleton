@@ -6,6 +6,12 @@
     "Rico Sonntag"
   ],
   "license": "MIT",
+  "ignore": [
+    "**/*",
+    "node-modules",
+    "server",
+    "test"
+    ],
   "homepage": "https://github.com/Riclas1/MEANSkeleton",
   "private": true,
   "dependencies": {
