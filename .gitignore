@@ -4,5 +4,6 @@ db
 public/views/index/libs/*
 !public/views/index/libs/inspinia
 !public/views/index/libs/fonts
+public/views/index/test/libs/*
 
 

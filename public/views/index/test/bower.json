@@ -1,0 +1,6 @@
+{
+  "name": "Test MeanSkeleton",
+  "dependencies": {
+    "jasmine-core": "jasmine#^2.6.1"
+  }
+}
