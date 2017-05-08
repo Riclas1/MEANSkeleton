@@ -1,0 +1,19 @@
+{
+  "name": "MeanSkeleton",
+  "description": "walkingSekeletonProjekt",
+  "main": "index.html",
+  "authors": [
+    "Rico Sonntag"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Riclas1/MEANSkeleton",
+  "private": true,
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "angular": "1.6",
+    "bootstrap": "^3.3.7",
+    "angular-resource": "1.6",
+    "angular-route": "1.6",
+    "font-awesome": "^4.7.0"
+  }
+}
