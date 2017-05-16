@@ -1,9 +1,10 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    color = require('chalk');
 var Schema = mongoose.Shema;
 
 mongoose.model('User', require('../entitys/auth/user'));
 
-console.log('entity init done!');
+console.log(color.green('entity init done!'));
 
 /*var user = mongoose.model('User');
 

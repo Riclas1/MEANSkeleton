@@ -11,7 +11,7 @@ var app = express(),
     env = process.env.NODE_ENV = process.env.NODE_ENV || 'dev',
     config = require('./server/config/config.js')[env];
 
-
+console.log(env);
 
 /**********DB CMD Sart *********/
 if (config.prod) {

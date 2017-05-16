@@ -11,6 +11,12 @@ module.exports = {
     pro: {
         db: 'mongodb://localhost:27017/local',
         rootpath : rootpath,
+        port: process.env.port || 443,
+        prod: true
+   },
+    stg: {
+        db: 'mongodb://localhost:27017/local',
+        rootpath : rootpath,
         port: process.env.port || 80,
         prod: true
    }   

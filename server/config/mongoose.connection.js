@@ -1,12 +1,13 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    color = require('chalk');
 
 module.exports = function (config){
     //********* Connection **********/       
     mongoose.connect(config.db);
     var db = mongoose.connection;
-    db.on('error',console.error.bind(console,'connection error.....'));
+    db.on('error',console.error.bind(console,color.red('connection error.....')));
     db.once('open', function callback(){
-        console.log('DB local connected!');
+        console.log(color.green('DB local connected!'));
     });
 
     return db;

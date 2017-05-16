@@ -7,7 +7,9 @@
     "Rico Sonntag"
   ],
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js ",
+    "debug": "nodemon --inspect app.js ",
+    "postinstall" :"typings install node --source env --global"
   },
   "dependencies": {
     "async": "^2.3.0",
